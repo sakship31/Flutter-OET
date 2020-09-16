@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 void main() {
   runApp(
     MaterialApp(
 home: Scaffold(
-  backgroundColor: Colors.teal,
+  backgroundColor: Colors.black,
   body: SafeArea(
     child: Padding(padding: EdgeInsets.symmetric(horizontal: 10.0),
     child: Quizgame(),),
@@ -23,6 +24,7 @@ class _QuizgameState extends State<Quizgame> {
   List<Widget> score=[];
   List<bool> ans=[true,false,true];
   int qnum=0;
+  int finalscore=0;
   List<String> questions=[
     "Everything in Flutter is Widget",
     "Flutter is based on Java Prog lang",
@@ -56,7 +58,9 @@ class _QuizgameState extends State<Quizgame> {
                   score.add(Icon(
                     Icons.check, color: Colors.lightGreen,
                   )
+                  
                   );
+                  finalscore+=1;
                 }else{
                   score.add(
                     Icon(
@@ -66,6 +70,16 @@ class _QuizgameState extends State<Quizgame> {
                 }
               setState(() {
                 qnum+=1;
+                  if(qnum>=questions.length){
+                       Alert(
+                        context: context,
+                        title: 'Done!',
+                        desc: 'Score:$finalscore',
+                      ).show();
+                      qnum=0;
+                      finalscore=0;
+                      score = [];
+                  }
               });
               },
             ),
@@ -87,6 +101,7 @@ class _QuizgameState extends State<Quizgame> {
                     Icons.check, color: Colors.lightGreen,
                   )
                   );
+                  finalscore+=1;
                 }else{
                   score.add(
                     Icon(
@@ -95,7 +110,20 @@ class _QuizgameState extends State<Quizgame> {
                   );
                 }
                 setState(() {
-                  qnum+=1;
+                  
+                  if(qnum+1>=questions.length){
+                       Alert(
+                        context: context,
+                        title: 'Done!',
+                        desc: 'Score:$finalscore',
+                      ).show();
+                      qnum=0;
+                      finalscore=0;
+                      score = [];
+                  }
+                   else{
+                     qnum+=1;
+                   }   
 
                 });
               },
